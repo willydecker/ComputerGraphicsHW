@@ -1,0 +1,155 @@
+<html>
+<head>
+	<h4>This is the clock!</h4>
+	<style>
+      body {
+         background: #ffffff;
+      }
+
+      #controls {
+         position: absolute;
+         left: 25px;
+         top: 25px;
+      }
+      
+      #canvas {
+        cursor: pointer;
+        margin-left: 10px;
+        margin-top: 10px;
+        -webkit-box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+        -moz-box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+        box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+      }
+    </style>
+</head>
+
+<body>
+    <canvas id='canvas' width='500' height='500' style="position: absolute; left: 0; top: 0; z-index: 0;">
+    </canvas>
+</body>
+</html>
+
+<script type="text/javascript">
+	var canvas = document.getElementById('canvas');
+	var context = canvas.getContext('2d');
+
+
+	var r1 = 200; //outer radius 
+	var r2 = 175; //inner radius
+
+	function drawClock(){
+		context.beginPath(); //outer circle
+		context.arc(250,250,r1,0,2 * Math.PI);
+  		context.stroke();
+  	
+		context.beginPath(); //inner circle
+		context.arc(250,250,r2,0,2 * Math.PI);
+	  	context.stroke();
+
+
+  		for(var i = 0; i<360; i+=(360/12)){ //12 hands of clock
+			var rad = i*(Math.PI/180);
+			x1 = 250 + r1*Math.cos(rad);
+			y1 = 250 + r1*Math.sin(rad); //walk the circle
+ 
+			x2 = 250 + r2*Math.cos(rad); //r2 is length of tick
+			y2 = 250 + r2*Math.sin(rad);
+
+			context.beginPath();
+			context.moveTo(x1,y1);
+			context.lineTo(x2,y2);
+			context.stroke();
+		}
+  	
+  		for(var i = 0; i<360; i+=(360/60)){ //60 mins of clock
+			var rad = i*(Math.PI/180);
+			r2 = 190;
+
+			x1 = 250 + r1*Math.cos(rad);
+			y1 = 250 + r1*Math.sin(rad); //walk the circle
+ 
+			x2 = 250 + r2*Math.cos(rad); //r2 is length of tick
+			y2 = 250 + r2*Math.sin(rad);
+
+			context.beginPath();
+			context.moveTo(x1,y1);
+			context.lineTo(x2,y2);
+			context.stroke();
+		}
+	}
+	
+
+	function drawMinHand(){
+		var current = new Date();
+		var currentMin = current.getMinutes();
+
+		for(var i = 0; i<360; i+=6){ //60 mins of clock
+			var rad = i*(Math.PI/180);
+
+			x1 = 250 + 150 * Math.cos(rad); //centerx + lengthOfLine * cos(rad)
+			y1 = 250 + 150 * Math.sin(rad);
+			
+			if(currentMin == (i/6)){
+				break;
+			}
+		}
+		
+		context.beginPath();
+		context.moveTo(250,250);
+		context.lineTo(x1,y1);
+		context.stroke();  
+	}
+
+	function drawHourHand(){
+		var current = new Date();
+		var currentMin = current.getHours();
+
+		for(var i = 0; i<360; i+=6){ //60 mins of clock
+			var rad = i*(Math.PI/180);
+
+			x1 = 250 + 100 * Math.cos(rad); //centerx + lengthOfLine * cos(rad)
+			y1 = 250 + 100 * Math.sin(rad);
+			
+			if(currentMin == (i/6)){
+				break;
+			}
+		}
+		
+		context.beginPath();
+		context.moveTo(250,250);
+		context.lineTo(x1,y1);
+		context.stroke();  
+	}
+
+	function drawSecHand(){
+		var current = new Date();
+		var currentMin = current.getSeconds();
+
+		for(var i = 0; i<360; i+=6){ //60 mins of clock
+			var rad = i*(Math.PI/180);
+
+			x1 = 250 + 200 * Math.cos(rad); //centerx + lengthOfLine * cos(rad)
+			y1 = 250 + 200 * Math.sin(rad);
+			
+			if(currentMin == (i/6)){
+				break;
+			}
+		}
+		
+		context.beginPath();
+		context.moveTo(250,250);
+		context.lineTo(x1,y1);
+		context.stroke();  
+	}
+
+var loopingClock = function(){
+	context.clearRect(0,0,500,500);
+	drawClock();
+	drawSecHand();
+	drawMinHand();
+	drawHourHand();
+}
+var timeout = 1000
+setInterval(loopingClock,timeout);
+
+</script>

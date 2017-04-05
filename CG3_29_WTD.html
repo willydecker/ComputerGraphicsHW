@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<h1>Classwork for 3/29</h1>
+</head>
+<body>
+	<button id="button1" onclick="setMyInterval()">Set Interval</button>
+		<button id="button2" onclick="setMyTimeout()">Set Timeout</button>
+		<button id="button3" onclick="requestAnFrm()">Request Animation Frame</button>
+		<button id="button4" onclick="easJSCalls()">Easel JS Calls</button>
+	<canvas id='canvas' width='900' height='620'>
+        Canvas not supported
+	</canvas>
+</body>
+<script src="../JS/ClassDemos/EaselJS-0.8.2/lib/easeljs-0.8.2.combined.js"></script>
+<script type="text/javascript">
+	var canvas = document.getElementById('canvas');
+	var context = canvas.getContext('2d');
+	var x = 0;
+	var y = 0;
+
+	function animate() {
+		// Update and draw animation objects
+		context.rect(x, y, 100, 100);
+   		context.stroke();
+   		x++;
+   		y++;	
+	}
+
+	function clearCanvas(){
+		context.clearRect(0,0,canvas.width,canvas.height);
+	}
+
+	function setMyInterval() {
+		clearCanvas();
+		setInterval(animate, 1000);
+	}
+
+	function setMyTimeout(){
+		clearCanvas();
+		setTimeout(animate, (1000));
+	}
+
+	function requestAnFrm(){
+		clearCanvas();
+	    requestAnimationFrame(animate);
+	}
+
+	function easJSCalls(){
+		clearCanvas();
+		var stage = new createjs.Stage("canvas");
+		var square = new createjs.Shape();
+		square.graphics.beginFill("red").drawRect(0, 0, 25,25);
+		square.x = x;
+		square.y = y;
+		stage.addChild(square);
+		stage.update();
+		x++;
+		y++;
+	}
+
+</script>
+</html>
+
